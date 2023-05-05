@@ -1,0 +1,7 @@
+pyarrow
+pandas
+python-dotenv
+confluent-kafka
+SQLAlchemy
+psycopg2-binary
+boto3
