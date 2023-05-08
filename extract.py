@@ -104,6 +104,7 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
                         resistance_duration, power_hrt_rpm, ride_id
                     )
                     write_df_to_sql_staging(ride_df, "RIDES")
+                    # Include function for live dashboard here
 
     except KeyboardInterrupt:
         pass
