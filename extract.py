@@ -65,6 +65,9 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
          String: when function is stopped
     """
     consumer.subscribe([kafka_topic_name])
+
+    is_initial_system = False
+
     try:
         while True:
             consumer_poll = consumer.poll(0.5)
@@ -83,10 +86,19 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
 
             if "SYSTEM" in msg:
                 ride_id = user_ride_length() + 1
-                user_ride_df, user_df = util.process_system_message(msg, ride_id)
+                user_ride_data, user_data = util.process_system_message(msg, ride_id)
+                user_ride_df, user_df = util.process_system_data(user_ride_data, user_data)
 
                 write_df_to_sql_staging(user_ride_df, "USER_RIDES")
                 write_df_to_sql_staging(user_df, "USERS")
+                is_initial_system = True
+            elif "Ride" in msg:
+                resistance_duration = util.process_ride_message(msg)
+            elif "Telemetry" in msg:
+                power_hrt_rpm = util.process_telemetry_message(msg)
+
+                if is_initial_system:
+
 
     except KeyboardInterrupt:
         pass

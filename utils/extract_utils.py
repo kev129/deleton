@@ -34,7 +34,7 @@ def extract_user_name(user_details):
         return [user_details["name"].split(" ")[0], user_details["name"].split(" ")[1]]
 
 
-def extract_user_data(message: str, ride_id: int) -> list:
+def process_system_message(message: str, ride_id: int) -> list:
     """Takes a message and extracts the current bike user's data
 
     Args:
@@ -49,7 +49,7 @@ def extract_user_data(message: str, ride_id: int) -> list:
 
     user_name = extract_user_name(user_details)
 
-    new_user_row = [
+    user_data = [
         user_details["user_id"],
         user_name[0],
         user_name[1],
@@ -60,22 +60,25 @@ def extract_user_data(message: str, ride_id: int) -> list:
         user_details["email_address"],
     ]
 
-    user_ride_table_data = [ride_id, user_details["user_id"]]
+    user_ride_data = [ride_id, user_details["user_id"]]
 
-    return user_ride_table_data, new_user_row
+    return user_ride_data, user_data
 
 
-def process_system_message(msg: str, ride_id: int) -> pd.DataFrame | pd.DataFrame:
-    """Takes the new system message and ride_id, extracts the relevant data and writes
-    to staging schema
+def process_system_data(
+    user_ride_data: list, user_data: list
+) -> pd.DataFrame | pd.DataFrame:
+    """Takes the extracted data from message, and converts into a DataFrame
 
     Args:
-        msg (str): Kafka message
-        ride_id (int): ride_id based on what is currently in the database
+        user_ride_data (list): list of values containing the ride_id and user_id
+        user_data (list): list of values containing user's: id, firstname, lastname, gender, DoB, height, weight, email address
+
+    Returns:
+        pd.DataFrame | pd.DataFrame: 2 DataFrames of a single containing the information of the args
     """
-    join_list_data, user_data = extract_user_data(msg, ride_id)
     user_ride_df = pd.DataFrame(
-        {"user_id": [join_list_data[1]], "ride_id": [join_list_data[0]]}
+        {"user_id": [user_ride_data[1]], "ride_id": [user_ride_data[0]]}
     )
     user_df = pd.DataFrame(
         {
@@ -91,3 +94,40 @@ def process_system_message(msg: str, ride_id: int) -> pd.DataFrame | pd.DataFram
     )
 
     return user_ride_df, user_df
+
+
+def process_ride_message(msg: str) -> list:
+    """Takes a message and extracts the current ride data
+
+    Args:
+        message (str): kafka message decoded
+
+    Returns:
+        List: resistance, duration
+    """
+    current_ride_info = msg.split("[INFO]: ")[1][:-1].split("= ")
+
+    resistance = current_ride_info[-1]
+    duration = current_ride_info[1].split(";")[0]
+
+    ride_table_resistance_duration = [resistance, duration]
+    return ride_table_resistance_duration
+
+
+def process_telemetry_message(msg: str) -> list:
+    """Takes a message and extracts the current telemetry data
+
+    Args:
+        message (str): kafka message decoded
+
+    Returns:
+        List: power, heart rate, rotations_pm
+    """
+    current_telemetry_info = msg.split("[INFO]: ")[1][:-1].split("= ")
+
+    power = current_telemetry_info[-1]
+    hrt = current_telemetry_info[1].split(";")[0]
+    rotations_pm = current_telemetry_info[2].split(";")[0]
+
+    ride_table_power_hrt_rpm = [power, hrt, rotations_pm]
+    return ride_table_power_hrt_rpm
