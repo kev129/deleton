@@ -137,6 +137,17 @@ def process_telemetry_message(msg: str) -> list:
 def process_ride_telemetry_data(
     resistance_duration: list, power_hrt_rpm: list, ride_id: int
 ) -> pd.DataFrame:
+    """Takes the two lists containing values for ride resistance, duration, power, heart rate, rpm and the ride_id,
+    to create a DataFrame with one row to add to database
+
+    Args:
+        resistance_duration (list): List with two values, resistance and duration
+        power_hrt_rpm (list): List with three values, power, heart rate and rpm
+        ride_id (int): Current ride_id
+
+    Returns:
+        pd.DataFrame: DataFrame with one row containing all ride data for the current second of the ride
+    """
     ride_row = [
         ride_id,
         resistance_duration[1],
