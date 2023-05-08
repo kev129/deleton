@@ -87,7 +87,9 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
             if "SYSTEM" in msg:
                 ride_id = user_ride_length() + 1
                 user_ride_data, user_data = util.process_system_message(msg, ride_id)
-                user_ride_df, user_df = util.process_system_data(user_ride_data, user_data)
+                user_ride_df, user_df = util.process_system_data(
+                    user_ride_data, user_data
+                )
 
                 write_df_to_sql_staging(user_ride_df, "USER_RIDES")
                 write_df_to_sql_staging(user_df, "USERS")
@@ -98,7 +100,10 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
                 power_hrt_rpm = util.process_telemetry_message(msg)
 
                 if is_initial_system:
-
+                    ride_df = util.process_ride_telemetry_data(
+                        resistance_duration, power_hrt_rpm, ride_id
+                    )
+                    write_df_to_sql_staging(ride_df, "RIDES")
 
     except KeyboardInterrupt:
         pass

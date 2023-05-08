@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import pandas as pd
 from confluent_kafka import cimpl
@@ -131,3 +132,29 @@ def process_telemetry_message(msg: str) -> list:
 
     ride_table_power_hrt_rpm = [power, hrt, rotations_pm]
     return ride_table_power_hrt_rpm
+
+
+def process_ride_telemetry_data(
+    resistance_duration: list, power_hrt_rpm: list, ride_id: int
+) -> pd.DataFrame:
+    ride_row = [
+        ride_id,
+        resistance_duration[1],
+        resistance_duration[0],
+        power_hrt_rpm[1],
+        power_hrt_rpm[2],
+        power_hrt_rpm[0],
+    ]
+    time_now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    ride_df = pd.DataFrame(
+        {
+            "ride_id": [ride_row[0]],
+            "duration": [ride_row[1]],
+            "resistance": [ride_row[2]],
+            "heart_rate": [ride_row[3]],
+            "rotations_pm": [ride_row[4]],
+            "power": [ride_row[5]],
+            "time": time_now,
+        }
+    )
+    return ride_df
