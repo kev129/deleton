@@ -173,3 +173,17 @@ def write_df_to_sql_production(df: pd.DataFrame, table_name: str):
         )
 
         print("Dataframe transformed")
+
+
+def handler(event, context):
+    users_df, rides_df, junction_df = get_users_rides_data()
+    joined_df = merge_dataframes(users_df, rides_df, junction_df)
+
+    joined_df["dob"] = joined_df["dob"].apply(lambda x: convert_dob_to_age(x))
+    joined_df = rename_age_duration(joined_df)
+    joined_df = change_dtypes(joined_df)
+    joined_df = replace_zeroes_with_nulls(joined_df)
+
+    write_df_to_sql_production(joined_df, "EZ_PRODUCTION_TABLE")
+
+    return "Wrote clean data to production schema"
