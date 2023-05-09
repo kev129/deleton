@@ -111,3 +111,27 @@ def rename_age_duration(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.rename(columns={"dob": "age", "duration": "time_elapsed"})
     return df
+
+
+def change_dtypes(df: pd.DataFrame) -> pd.DataFrame:
+    """Changes column type of joined df to be of type string
+
+    Args:
+        df (pd.Dataframe): joined df with all data
+
+    Returns:
+        df (pd.Dataframe): df with some columns retyped
+    """
+
+    for col in [
+        "first_name",
+        "last_name",
+        "gender",
+        "heart_rate",
+        "resistance",
+        "rotations_pm",
+        "power",
+    ]:
+        df[col] = df[col].astype("string")
+
+    return df
