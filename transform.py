@@ -135,3 +135,21 @@ def change_dtypes(df: pd.DataFrame) -> pd.DataFrame:
         df[col] = df[col].astype("string")
 
     return df
+
+
+def replace_zeroes_with_nulls(df: pd.DataFrame) -> pd.DataFrame:
+    """Checks specified columns to for 0 values and replaces with null
+
+    Args:
+        df (pd.Dataframe): joined df
+
+    Returns:
+        df (pd.Dataframe): df with 0's replaced
+    """
+
+    columns_to_change = ["heart_rate", "resistance", "rotations_pm", "power"]
+    for column in columns_to_change:
+        df[column] = np.where(df[column] == "0", np.nan, df[column])
+        df[column] = np.where(df[column] == "0.0", np.nan, df[column])
+
+    return df
