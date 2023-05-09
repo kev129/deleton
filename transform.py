@@ -153,3 +153,23 @@ def replace_zeroes_with_nulls(df: pd.DataFrame) -> pd.DataFrame:
         df[column] = np.where(df[column] == "0.0", np.nan, df[column])
 
     return df
+
+
+def write_df_to_sql_production(df: pd.DataFrame, table_name: str):
+    """Save the pandas dataframe to tables in production schema,
+        appends to table if the table exists already
+
+    Args:
+        df (pd.Dataframe): df that needs to be push to production
+        table_name (str): name of the table in the schema
+    """
+
+    engine = create_engine(
+        f"postgresql://{user}:{password}@{hostname}:{port}/{db_name}"
+    )
+    with engine.connect() as conn:
+        df.to_sql(
+            table_name, conn, schema=production_schema, if_exists="replace", index=False
+        )
+
+        print("Dataframe transformed")
