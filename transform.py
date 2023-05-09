@@ -77,3 +77,23 @@ def merge_dataframes(
     joined_df = users_df_with_ride_id.merge(rides_df)
 
     return joined_df
+
+
+def convert_dob_to_age(dob: str) -> Union[None, int]:
+    """Takes the dob in ms, and converts to age in years
+
+    Args:
+        dob (int): ms from 01/01/1970
+
+    Returns:
+        age in years (int): age in years
+    """
+
+    if not math.isnan(float(dob)):
+        dob = int(dob)
+        epoch_in_seconds = dob / 1000
+        formatted_dob = dt.fromtimestamp(epoch_in_seconds)
+        epoch_age = dt.now() - formatted_dob
+        age = math.floor(epoch_age.days / 365)
+        return age
+    return dob
