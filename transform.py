@@ -55,3 +55,25 @@ def get_users_rides_data() -> tuple:
     user_rides_df = read_table_from_schema("USER_RIDES", staging_schema)
 
     return users_df, rides_df, user_rides_df
+
+
+def merge_dataframes(
+    users_df: pd.DataFrame, rides_df: pd.DataFrame, junction_df: pd.DataFrame
+) -> pd.DataFrame:
+    """Takes 3 dataframes and merges them into and returns it
+
+    Args:
+        users_df (pd.Dataframe): df with data of user
+        rides_df (pd.Dataframe): df with data from individual rides
+        junction_df (pd.Dataframe): df with data of user id attached with ride id
+
+    Returns:
+        joined df (pd.Dataframe): columns time, user_id, first_name, last_name, gender, age, height,
+        weight, ride_id, duration, resistance, heart_rate, rotations_pm
+    """
+
+    users_df = users_df.drop_duplicates()
+    users_df_with_ride_id = users_df.merge(junction_df)
+    joined_df = users_df_with_ride_id.merge(rides_df)
+
+    return joined_df
