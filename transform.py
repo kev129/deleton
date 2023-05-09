@@ -97,3 +97,17 @@ def convert_dob_to_age(dob: str) -> Union[None, int]:
         age = math.floor(epoch_age.days / 365)
         return age
     return dob
+
+
+def rename_age_duration(df: pd.DataFrame) -> pd.DataFrame:
+    """Renames dob and duration columns to age and time_elapsed respectively
+
+    Args:
+        df (pd.Dataframe): dataframe of data joined on ride and user id
+
+    Returns:
+        renamed df (pd.Dataframe): df with renamed dob and duration
+    """
+
+    df = df.rename(columns={"dob": "age", "duration": "time_elapsed"})
+    return df
