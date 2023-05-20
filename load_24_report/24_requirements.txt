@@ -1,0 +1,10 @@
+boto3
+fpdf
+kaleido
+numpy
+pandas
+plotly.express
+psycopg2-binary
+PyPDF2
+python-dotenv
+sqlalchemy
