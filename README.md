@@ -2,7 +2,7 @@
 <img src= "https://user-images.githubusercontent.com/78930833/195614941-313554aa-24a8-4192-8706-3e64a45aec80.png" alt = "Deloton Logo">
 </p>
 
-<h1 align = "center"><b>EZ Brokers x Deloton</b></h1>
+<h1 align = "center"><b>Deloton</b></h1>
 
 <p align="center">
 <img src = "https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54")>
@@ -18,7 +18,13 @@
 </p>
 <br>
 <h2><b>About The Project</b></h2>
-<p align = "justify">This project aims to produce an effective and efficient pipeline which will automatically transform and load date through a number of deliverables for the client, Deloton.<br>The pipeline utilizes the seamless nature of AWS' services and makes use of services such as EC2, Lambda, SES and Aurora. The pipeline follows the ETL format, Extract, Transform, and Load.<br>The ingestion of data is completed from a Kafka stream, transformed and staged within Aurora and loaded and analyzed through multiple deliverables such as a daily report and live ride information.</p>
+<p align = "justify">This project aims to produce an effective and efficient pipeline which will automatically transform and load date through a number of deliverables for the client, Deloton.<br>The pipeline utilizes the seamless nature of AWS' services and makes use of services such as EC2, Lambda, SES and Aurora. The pipeline follows the ETL format, Extract, Transform, and Load.<br>The ingestion of data is completed from a Kafka stream, transformed and staged within Aurora and loaded and analyzed through multiple deliverables such as a daily report and live ride information.<br> The project has 4 deliverables/objectives:
+<br>
+1. 24 Hour Report to be emailed to CEO
+2. API to access all historical rides and users
+3. Live Dashboard featuring current ride of bike
+4. 12 Hour Report available on website as well
+</p>
 <br>
 <h2><b>Libraries and Dependencies</b></h2>
 <p>Pandas<br>Confluent Kafka<br>SQLAlchemy<br>Boto3<br>fpdf<br>Kaleido<br>numpy<br>plotly.express<br>PyPDF2<br>Dash<br>Dash Bootstrap</p>
