@@ -20,10 +20,10 @@
 <h2><b>About The Project</b></h2>
 <p align = "justify">This project aims to produce an effective and efficient pipeline which will automatically transform and load date through a number of deliverables for the client, Deloton.<br>The pipeline utilizes the seamless nature of AWS' services and makes use of services such as EC2, Lambda, SES and Aurora. The pipeline follows the ETL format, Extract, Transform, and Load.<br>The ingestion of data is completed from a Kafka stream, transformed and staged within Aurora and loaded and analyzed through multiple deliverables such as a daily report and live ride information.<br> The project has 4 deliverables/objectives:
 <br>
-1. 24 Hour Report to be emailed to CEO
-2. API to access all historical rides and users
-3. Live Dashboard featuring current ride of bike
-4. 12 Hour Report available on website as well
+1. 24 Hour Report to be emailed to CEO <br>
+2. API to access all historical rides and users<br>
+3. Live Dashboard featuring current ride of bike<br>
+4. 12 Hour Report available on website as well<br>
 </p>
 <br>
 <h2><b>Libraries and Dependencies</b></h2>
