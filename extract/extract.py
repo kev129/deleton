@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 import utils.extract_utils as util
+from utils.dash_app_utils import create_row
 
 
 def user_ride_length() -> int:
@@ -104,7 +105,22 @@ def get_messages(consumer: cimpl.Consumer) -> pd.DataFrame:
                         resistance_duration, power_hrt_rpm, ride_id
                     )
                     write_df_to_sql_staging(ride_df, "RIDES")
-                    # Include function for live dashboard here
+                    create_row(
+                        ride_df[0],
+                        user_data[1],
+                        user_data[2],
+                        user_data[3],
+                        str(user_data[4]),
+                        ride_df[1],
+                        ride_df[3],
+                        user_data[7],
+                        user,
+                        password,
+                        hostname,
+                        port,
+                        db_name,
+                        staging_schema,
+                    )
 
     except KeyboardInterrupt:
         pass
