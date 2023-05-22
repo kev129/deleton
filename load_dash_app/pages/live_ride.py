@@ -4,8 +4,6 @@ from types import NoneType
 
 import plotly.express as px
 
-sys.path.append("..")
-
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
