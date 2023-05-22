@@ -14,6 +14,7 @@ hostname = os.environ["DB_HOST"]
 db_name = os.environ["DB_NAME"]
 port = os.environ["DB_PORT"]
 production_schema = os.environ["PRODUCTION_SCHEMA"]
+production_table = os.environ["PRODUCTION_TABLE"]
 
 
 def fetch_dashboard_data() -> pd.DataFrame:
@@ -22,8 +23,8 @@ def fetch_dashboard_data() -> pd.DataFrame:
     Returns:
         pd.DataFrame: Dataframe from production schema to be used for visualizations
     """
-    query = """
-            SELECT * FROM "ez_brokers_production"."EZ_PRODUCTION_TABLE"
+    query = f"""
+            SELECT * FROM {production_schema}.{production_table}
             WHERE to_timestamp(time, 'DD-MM-YYYY HH24:MI:SS') > (NOW() - INTERVAL '11 HOUR')
             """
     engine = create_engine(
