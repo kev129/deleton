@@ -7,7 +7,11 @@ import plotly.express as px
 import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
-from utils.dash_app_live_utils import get_current_ride_data, get_new_df, send_email
+from utils.dash_app_pages_live_utils import (
+    get_current_ride_data,
+    get_new_df,
+    send_email,
+)
 from dash import Input, Output, callback, dash_table, dcc, html
 from dotenv import load_dotenv
 
