@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
 import utils.extract_utils as util
-from utils.dash_app_utils import create_row
+from utils.dash_app_live_utils import create_row
 
 
 def user_ride_length() -> int:
